@@ -17,48 +17,60 @@ const FraudReport = () => {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const form = useForm<FraudFormData>({
-    defaultValues: {
-      impostorDetails: "",
-      contactInfo: "",
-      comments: "",
-    },
-    onSubmit: async ({ value }) => {
-      // Validación básica
-      const newErrors: Record<string, string> = {};
+const form = useForm<FraudFormData>({
+  defaultValues: {
+    impostorDetails: "",
+    contactInfo: "",
+    comments: "",
+  },
+  onSubmit: async ({ value }) => {
+    // Validación básica
+    const newErrors: Record<string, string> = {};
 
-      if (!value.impostorDetails?.trim()) {
-        newErrors.impostorDetails = "Los detalles del impostor son obligatorios";
-      }
+    if (!value.impostorDetails?.trim()) {
+      newErrors.impostorDetails = "Los detalles del impostor son obligatorios";
+    }
 
-      if (!value.contactInfo?.trim()) {
-        newErrors.contactInfo = "El número, correo o usuario es obligatorio";
-      }
+    if (!value.contactInfo?.trim()) {
+      newErrors.contactInfo = "El número, correo o usuario es obligatorio";
+    }
 
-      if (Object.keys(newErrors).length > 0) {
-        setErrors(newErrors);
-        return;
-      }
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
 
-      // Simulación de envío
-      console.log("Datos enviados:", {
-        impostorDetails: value.impostorDetails,
-        contactInfo: value.contactInfo,
-        comments: value.comments,
-        createdAt: new Date().toISOString(),
+    try {
+      const response = await fetch("https://localhost:7098/api/fraud", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          impostorDetails: value.impostorDetails,
+          contactInfo: value.contactInfo,
+          comments: value.comments || "",
+        }),
       });
 
-      // Mostrar mensaje de éxito
-      setSuccessMessage("¡Reporte de fraude enviado exitosamente!");
-      setErrors({});
+      if (response.ok) {
+        setSuccessMessage("¡Reporte de fraude enviado exitosamente!");
+        setErrors({});
+        form.reset();
+        setTimeout(() => setSuccessMessage(null), 5000);
+      } else {
+        const error = await response.json();
+        setSuccessMessage(null);
+        setErrors({ general: error.message || "Error al enviar el reporte" });
+      }
+    } catch (error) {
+      console.error("Error de conexión:", error);
+      setSuccessMessage(null);
+      setErrors({ general: "Error de conexión. ¿El backend está corriendo en https://localhost:7098?" });
+    }
+  }, 
+}); 
 
-      // Limpiar formulario
-      form.reset();
-
-      // Limpiar mensaje después de 5 segundos
-      setTimeout(() => setSuccessMessage(null), 5000);
-    },
-  });
 
   const handleFieldChange = (fieldName: keyof FraudFormData) => {
     if (errors[fieldName]) {
