@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import heroImage from "@/assets/hero-cyber.jpg";
 
+const API_URL = import.meta.env.VITE_API_URL ?? "https://localhost:7098/api";
+
 interface FraudFormData {
   impostorDetails: string;
   contactInfo: string;
@@ -41,7 +43,7 @@ const form = useForm<FraudFormData>({
     }
 
     try {
-      const response = await fetch("https://localhost:7098/api/fraud", {
+      const response = await fetch(`${API_URL}/fraud`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
