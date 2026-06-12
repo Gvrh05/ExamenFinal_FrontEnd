@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import heroImage from "@/assets/hero-cyber.jpg";
 
-const API_URL = import.meta.env.VITE_API_URL ?? "https://localhost:7098/api";
+const API_URL = import.meta.env.VITE_API_URL;
 
 interface FraudFormData {
   impostorDetails: string;
