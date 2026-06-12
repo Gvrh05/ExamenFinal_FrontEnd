@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import heroImage from "@/assets/hero-cyber.jpg";
 
+const API_URL = import.meta.env.VITE_API_URL ?? "https://localhost:7098/api";
+
 interface Fraud {
   id: number;
   impostorDetails: string;
@@ -28,7 +30,7 @@ const Reports = () => {
         setLoadingState("loading");
         setErrorMessage(null);
 
-        const response = await fetch("https://localhost:7098/api/fraud", {
+        const response = await fetch(`${API_URL}/fraud`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
