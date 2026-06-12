@@ -19,7 +19,7 @@ const FraudReport = () => {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-const form = useForm<FraudFormData>({
+const form = useForm({
   defaultValues: {
     impostorDetails: "",
     contactInfo: "",
