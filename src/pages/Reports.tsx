@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import heroImage from "@/assets/hero-cyber.jpg";
 
-const API_URL = import.meta.env.VITE_API_URL ?? "https://localhost:7098/api";
+const API_URL = import.meta.env.VITE_API_URL;
 
 interface Fraud {
   id: number;
