@@ -47,6 +47,11 @@ const Header = () => {
     window.location.href = REPORTS_URL;
   };
 
+  const goToReportsList = () => {
+    closeMenu();
+    navigate("/reportes");
+  };
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-md border-b border-border shadow-soft">
       {/* Skip Navigation Link */}
@@ -103,6 +108,12 @@ const Header = () => {
               </button>
             ))}
             <Button
+              className="bg-secondary hover:bg-secondary/90 text-secondary-foreground rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-300"
+              onClick={goToReportsList}
+            >
+              Ver Reportes
+            </Button>
+            <Button
               className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-300"
               onClick={goToReportWizard}
             >
@@ -151,6 +162,12 @@ const Header = () => {
               ))}
               <Button
                 className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-semibold shadow-md hover:shadow-lg transition-all duration-300 w-full"
+                onClick={goToReportsList}
+              >
+                Ver Reportes
+              </Button>
+              <Button
+                className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold shadow-md hover:shadow-lg transition-all duration-300 w-full"
                 onClick={goToReportWizard}
               >
                 Reportar fraude
